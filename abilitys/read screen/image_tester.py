@@ -4,7 +4,8 @@ from PIL import Image
 pygame.init()
 
 #get image
-im = Image.open('C:\\Users\\Lrhgr\\Desktop\\hobbies\\programing\\image stuff\\image.jpg')
+monkey = 'C:\\Users\\Lrhgr\\Documents\\GitHub\\art\\monkey pics\\image.jpg'
+im = Image.open(monkey)
 
 #get size
 im_width, im_height = im.size
@@ -22,8 +23,8 @@ green = (0, 153 ,0)
 
 #functions
 def map_to_scrn(map_size, scrn_size, point):
-    margin_x = 200
-    margin_y = 50
+    margin_x = 30
+    margin_y = 25
 
     x_cons = (scrn_size[0] - margin_x*2)/map_size[0]
     y_cons = (scrn_size[1] - margin_y*2)/map_size[1]
@@ -35,7 +36,7 @@ def map_to_scrn(map_size, scrn_size, point):
     return pos_x, pos_y
 
 #veriables
-res = 60
+res = 100
 width_pos = -1
 height_pos = 0
 wid_per_pos = int(im_width/res)
@@ -63,12 +64,15 @@ while run:
         if height_pos > res:
             height_pos = 0
     
-    #find pixel pos
-    pos = (width_pos*wid_per_pos, height_pos*hi_per_pos)
-    color = pixel_map[pos[0], pos[1]]
+    try:
+        #find pixel pos
+        pos = (width_pos*wid_per_pos, height_pos*hi_per_pos)
+        color = pixel_map[pos[0], pos[1]]
 
-    #draw circle
-    pygame.draw.circle(display, color, (map_to_scrn(im.size, scrn_size, (width_pos*wid_per_pos, height_pos*hi_per_pos))), 5, 5)
+        #draw circle
+        pygame.draw.circle(display, color, (map_to_scrn(im.size, scrn_size, (width_pos*wid_per_pos, height_pos*hi_per_pos))), 5, 5)
+    except:
+        print('DANG')
 
     #update screen
     pygame.display.update()
