@@ -5,7 +5,7 @@ import math
 
 #peramiters
 max_len = 30
-streng = [1.1, 0.7, 0.01]
+streng = [1.6, 1.3, 0.01]
 randomness = 0.01
 
 #learning net class
@@ -383,5 +383,4 @@ while chat:
             print(num,'is not in translator')
         
     #reply
-    print(word_to)
     print(reply)
