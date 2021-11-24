@@ -20,7 +20,7 @@ display = pygame.display.set_mode((screen[0], screen[1]))
 
 #characters
 class erbos():
-    gen_max_hung = 400
+    gen_max_hung = 800
     view_dist = 15
     color_grad = 10 #bigger is darker
 
