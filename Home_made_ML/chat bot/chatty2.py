@@ -1,5 +1,7 @@
 import numpy as np
 import random
+import pyttsx3
+engine = pyttsx3.init()
 
 #peramiters
 max_len = 15
@@ -46,8 +48,6 @@ def colapse(probs):
     zeros_check = 0
     if (all(x == 0 for x in probs)):
         zeros_check = 1
-    
-    
         
     return [probs.index(max(probs)), zeros_check]
 
@@ -229,42 +229,44 @@ while chat:
         reply_num = [random.randint(0, len(num_to))]
     
     #generate reply
-    count = 0
-    gen = True
-    while gen:
-        #max out
-        if count > max_len:
-            gen = False
-        #otherwise
-        else:
-            if len(num_to) > 0:
-                #generate probability 1
-                probs = [nets[0].guess(reply_num[-1])]
-                
-                #generate probability 2
-                if len(reply_num) > 1:
-                    probs.append(nets[1].guess(reply_num[-2]))
-                
-                #generate reply probability
-                if reply_num != []:
-                    probs.append(nets[2].guess(word_to[user_in[random.randint(0, len(user_in)-1)]]))
-                
-                #add the probabiltys
-                probs = row_adds(probs)
+    try:
+        count = 0
+        gen = True
+        while gen:
+            #max out
+            if count > max_len:
+                gen = False
+            #otherwise
+            else:
+                if len(num_to) > 0:
+                    #generate probability 1
+                    probs = [nets[0].guess(reply_num[-1])]
                     
-                #find word
-                word = colapse(probs)
+                    #generate probability 2
+                    if len(reply_num) > 1:
+                        probs.append(nets[1].guess(reply_num[-2]))
+                    
+                    #generate reply probability
+                    if reply_num != []:
+                        probs.append(nets[2].guess(word_to[user_in[random.randint(0, len(user_in)-1)]]))
+                    
+                    #add the probabiltys
+                    probs = row_adds(probs)
+                        
+                    #find word
+                    word = colapse(probs)
+                    
+                    #quite if no suggested words
+                    if word[1] == 0:
+                        #add new word
+                        reply_num.append(word[0])
+                    else:
+                        gen = False
                 
-                #quite if no suggested words
-                if word[1] == 0:
-                    #add new word
-                    reply_num.append(word[0])
-                else:
-                    gen = False
-            
-            #increase word counter
-            count += 1                  
-    
+                #increase word counter
+                count += 1                  
+    except:
+        print('fuck')
     #convert numbers to words
     reply = ''
     for num in reply_num:
@@ -273,3 +275,7 @@ while chat:
     
     #reply
     print(reply)
+
+    # talk
+    engine.say(reply)
+    engine.runAndWait()
